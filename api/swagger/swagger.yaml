@@ -1,0 +1,285 @@
+openapi: 3.0.1
+info:
+  title: Web Application API for Retakes
+  description: API for handling retake scheduling and user roles (students, teachers, administrators)
+  version: 1.0.0
+servers:
+  - url: 'https://example.com/api'
+    description: Production Server
+paths:
+  /auth/login:
+    post:
+      summary: User login (Student, Teacher, Admin)
+      description: Authenticates the user and returns a role-based response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: User login (username)
+                password:
+                  type: string
+                  description: User password
+      responses:
+        '200':
+          description: Successful login, returns user details and role.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                  role:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: "student"
+                  message:
+                    type: string
+                    example: "Login successful"
+        '401':
+          description: Invalid login credentials.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Invalid login or password"
+  
+  /student/debt-info:
+    get:
+      summary: Get retake debt information for a student
+      description: Retrieves information about the student's retakes, including dates, times, and locations.
+      responses:
+        '200':
+          description: Returns student debt information including retake date, time, and location if available.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  debt_id:
+                    type: integer
+                  subject:
+                    type: string
+                  retake_date:
+                    type: string
+                    format: date
+                  retake_time:
+                    type: string
+                    format: time
+                  retake_address:
+                    type: string
+                  action_buttons:
+                    type: array
+                    items:
+                      type: string
+                      example: ["Get date", "Get time", "Get address"]
+        '404':
+          description: Debt information not found.
+  
+  /student/retake-request:
+    post:
+      summary: Request retake details (date, time, address) from teacher
+      description: Sends a request to the teacher to provide retake details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                debt_id:
+                  type: integer
+                request_type:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: "date"
+      responses:
+        '200':
+          description: Successfully sent request to teacher.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Request sent to teacher successfully"
+  
+  /teacher/retake-info:
+    get:
+      summary: Get retake information for teacher
+      description: Retrieves information about pending retakes for the teacher's subjects.
+      responses:
+        '200':
+          description: Returns retake details for the teacher's subjects.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  subject:
+                    type: string
+                  retake_requests:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        debt_id:
+                          type: integer
+                        request_type:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: "date"
+                        student_name:
+                          type: string
+        '404':
+          description: No retake requests found.
+
+  /teacher/update-retake:
+    post:
+      summary: Update retake details (date, time, or address) for a subject
+      description: Teacher updates retake details, such as date, time, or address, for a specific subject.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                debt_id:
+                  type: integer
+                retake_date:
+                  type: string
+                  format: date
+                retake_time:
+                  type: string
+                  format: time
+                retake_address:
+                  type: string
+      responses:
+        '200':
+          description: Successfully updated retake details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Retake information updated successfully"
+        '400':
+          description: Bad request, missing or invalid data.
+  
+  /admin/upload-retake-data:
+    post:
+      summary: Upload retake data for students or teachers
+      description: Admin uploads retake data for students or teachers via CSV or other formats.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: The file containing retake data (students or teachers).
+      responses:
+        '200':
+          description: Successfully uploaded and processed retake data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Retake data uploaded successfully"
+        '400':
+          description: Invalid file format or data.
+  
+  /admin/upload-student-retakes:
+    post:
+      summary: Upload student retake data
+      description: Admin uploads retake data specifically for students.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: File containing student retake data.
+      responses:
+        '200':
+          description: Successfully uploaded student retake data.
+        '400':
+          description: Invalid file format or data.
+
+  /admin/upload-teacher-retakes:
+    post:
+      summary: Upload teacher retake data
+      description: Admin uploads retake data specifically for teachers.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: File containing teacher retake data.
+      responses:
+        '200':
+          description: Successfully uploaded teacher retake data.
+        '400':
+          description: Invalid file format or data.
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        user_id:
+          type: integer
+        username:
+          type: string
+        role:
+          type: object
+          properties:
+            name:
+              type: string
+              example: "student"
+        message:
+          type: string
+    RetakeRequest:
+      type: object
+      properties:
+        debt_id:
+          type: integer
+        request_type:
+          type: object
+          properties:
+            name:
+              type: string
+              example: "date"
