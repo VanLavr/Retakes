@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.0
 info:
   title: Web Application API for Retakes
   description: API for handling retake scheduling and user roles (students, teachers, administrators)
@@ -9,6 +9,8 @@ servers:
 paths:
   /auth/login:
     post:
+      tags:
+        - Auth
       summary: User login (Student, Teacher, Admin)
       description: Authenticates the user and returns a role-based response.
       requestBody:
@@ -40,9 +42,12 @@ paths:
                       name:
                         type: string
                         example: "student"
-                  message:
+                      role_id:
+                        type: integer
+                        format: int64
+                  access-token:
                     type: string
-                    example: "Login successful"
+                    example: jfwifkjdas.fioewfdsvew.fdfeowilskcewi
         '401':
           description: Invalid login credentials.
           content:
@@ -50,12 +55,24 @@ paths:
               schema:
                 type: object
                 properties:
-                  message:
+                  error_message:
                     type: string
                     example: "Invalid login or password"
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_message:
+                    type: string
+                    example: "internal error"
   
   /student/debt-info:
     get:
+      tags:
+        - Student
       summary: Get retake debt information for a student
       description: Retrieves information about the student's retakes, including dates, times, and locations.
       responses:
