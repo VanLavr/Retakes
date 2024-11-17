@@ -1,2 +1,3 @@
 gen:
-	oapi-codegen -generate std-http -package gen -o api/swagger/gen/gen.go ./api/swagger/swagger.yaml
+	@export PATH="$PATH:$HOME/bin:$HOME/go/bin"
+	@oapi-codegen -generate gin -package gen -o api/gen/gen.go ./api/swagger/swagger.yaml

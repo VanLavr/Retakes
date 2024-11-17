@@ -2,20 +2,21 @@ package main
 
 import (
 	"log"
-	"net/http"
 
-	"github.com/VanLavr/Retakes/api/swagger/gen"
+	"github.com/VanLavr/Retakes/api/gen"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	// Create a new server
-	srv := &http.Server{
-		Addr:    ":8080",
-		Handler: gen.Handler(), // Use the generated router
-	}
+	// Create a new Gin router
+	router := gin.Default()
 
-	log.Println("Server listening on port 8080")
-	if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+	// Use the generated router
+	gen.RegisterHandlers(router)
+
+	// Start the server
+	err := router.Run(":8080")
+	if err != nil {
 		log.Fatalf("Server failed to start: %v", err)
 	}
 }
