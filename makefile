@@ -4,3 +4,6 @@ gen:
 
 run:
 	@go run ./cmd/main.go
+
+test:
+	@echo 'test'
