@@ -18,13 +18,8 @@ func main() {
 		StudentController: &controller.StudentController{},
 		TeacherController: &controller.TeacherController{},
 	}
-
-	wrapper := &gen.ServerInterfaceWrapper{
-		Handler: srv,
-	}
-
 	// Use the generated router
-	gen.RegisterHandlers(router, wrapper)
+	gen.RegisterHandlers(router, srv)
 
 	// Start the server
 	err := router.Run(":8080")
