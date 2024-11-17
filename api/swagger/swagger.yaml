@@ -3,9 +3,9 @@ info:
   title: Web Application API for Retakes
   description: API for handling retake scheduling and user roles (students, teachers, administrators)
   version: 1.0.0
-servers:
-  - url: 'https://example.com/api'
-    description: Production Server
+# servers:
+  # - url: 'https://example.com/api'
+    # description: Production Server
 paths:
   /auth/login:
     post:
