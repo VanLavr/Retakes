@@ -9,6 +9,7 @@ servers:
 paths:
   /auth/login:
     post:
+      operationId: login
       tags:
         - Auth
       summary: User login (Student, Teacher, Admin)
@@ -71,6 +72,7 @@ paths:
   
   /student/debt-info:
     get:
+      operationId: debtInfo
       tags:
         - Student
       summary: Get retake debt information for a student
@@ -105,6 +107,9 @@ paths:
   
   /student/retake-request:
     post:
+      operationId: studentRetakeRequest
+      tags:
+        - Student
       summary: Request retake details (date, time, address) from teacher
       description: Sends a request to the teacher to provide retake details.
       requestBody:
@@ -136,6 +141,9 @@ paths:
   
   /teacher/retake-info:
     get:
+      operationId: teacherRetakeRequest
+      tags:
+        - Teacher
       summary: Get retake information for teacher
       description: Retrieves information about pending retakes for the teacher's subjects.
       responses:
@@ -168,6 +176,9 @@ paths:
 
   /teacher/update-retake:
     post:
+      operationId: teacherUpdateRetake
+      tags:
+        - Teacher
       summary: Update retake details (date, time, or address) for a subject
       description: Teacher updates retake details, such as date, time, or address, for a specific subject.
       requestBody:
@@ -203,6 +214,9 @@ paths:
   
   /admin/upload-retake-data:
     post:
+      operationId: uploadRetakeData
+      tags:
+        - Admin
       summary: Upload retake data for students or teachers
       description: Admin uploads retake data for students or teachers via CSV or other formats.
       requestBody:
@@ -232,6 +246,9 @@ paths:
   
   /admin/upload-student-retakes:
     post:
+      operationId: uploadStudentRetakes
+      tags:
+        - Admin
       summary: Upload student retake data
       description: Admin uploads retake data specifically for students.
       requestBody:
@@ -253,6 +270,9 @@ paths:
 
   /admin/upload-teacher-retakes:
     post:
+      operationId: uploadTeacherRetakes
+      tags:
+        - Admin
       summary: Upload teacher retake data
       description: Admin uploads retake data specifically for teachers.
       requestBody:

@@ -11,28 +11,28 @@ import (
 type ServerInterface interface {
 	// Upload retake data for students or teachers
 	// (POST /admin/upload-retake-data)
-	PostAdminUploadRetakeData(c *gin.Context)
+	UploadRetakeData(c *gin.Context)
 	// Upload student retake data
 	// (POST /admin/upload-student-retakes)
-	PostAdminUploadStudentRetakes(c *gin.Context)
+	UploadStudentRetakes(c *gin.Context)
 	// Upload teacher retake data
 	// (POST /admin/upload-teacher-retakes)
-	PostAdminUploadTeacherRetakes(c *gin.Context)
+	UploadTeacherRetakes(c *gin.Context)
 	// User login (Student, Teacher, Admin)
 	// (POST /auth/login)
-	PostAuthLogin(c *gin.Context)
+	Login(c *gin.Context)
 	// Get retake debt information for a student
 	// (GET /student/debt-info)
-	GetStudentDebtInfo(c *gin.Context)
+	DebtInfo(c *gin.Context)
 	// Request retake details (date, time, address) from teacher
 	// (POST /student/retake-request)
-	PostStudentRetakeRequest(c *gin.Context)
+	StudentRetakeRequest(c *gin.Context)
 	// Get retake information for teacher
 	// (GET /teacher/retake-info)
-	GetTeacherRetakeInfo(c *gin.Context)
+	TeacherRetakeRequest(c *gin.Context)
 	// Update retake details (date, time, or address) for a subject
 	// (POST /teacher/update-retake)
-	PostTeacherUpdateRetake(c *gin.Context)
+	TeacherUpdateRetake(c *gin.Context)
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -44,8 +44,8 @@ type ServerInterfaceWrapper struct {
 
 type MiddlewareFunc func(c *gin.Context)
 
-// PostAdminUploadRetakeData operation middleware
-func (siw *ServerInterfaceWrapper) PostAdminUploadRetakeData(c *gin.Context) {
+// UploadRetakeData operation middleware
+func (siw *ServerInterfaceWrapper) UploadRetakeData(c *gin.Context) {
 
 	for _, middleware := range siw.HandlerMiddlewares {
 		middleware(c)
@@ -54,11 +54,11 @@ func (siw *ServerInterfaceWrapper) PostAdminUploadRetakeData(c *gin.Context) {
 		}
 	}
 
-	siw.Handler.PostAdminUploadRetakeData(c)
+	siw.Handler.UploadRetakeData(c)
 }
 
-// PostAdminUploadStudentRetakes operation middleware
-func (siw *ServerInterfaceWrapper) PostAdminUploadStudentRetakes(c *gin.Context) {
+// UploadStudentRetakes operation middleware
+func (siw *ServerInterfaceWrapper) UploadStudentRetakes(c *gin.Context) {
 
 	for _, middleware := range siw.HandlerMiddlewares {
 		middleware(c)
@@ -67,11 +67,11 @@ func (siw *ServerInterfaceWrapper) PostAdminUploadStudentRetakes(c *gin.Context)
 		}
 	}
 
-	siw.Handler.PostAdminUploadStudentRetakes(c)
+	siw.Handler.UploadStudentRetakes(c)
 }
 
-// PostAdminUploadTeacherRetakes operation middleware
-func (siw *ServerInterfaceWrapper) PostAdminUploadTeacherRetakes(c *gin.Context) {
+// UploadTeacherRetakes operation middleware
+func (siw *ServerInterfaceWrapper) UploadTeacherRetakes(c *gin.Context) {
 
 	for _, middleware := range siw.HandlerMiddlewares {
 		middleware(c)
@@ -80,11 +80,11 @@ func (siw *ServerInterfaceWrapper) PostAdminUploadTeacherRetakes(c *gin.Context)
 		}
 	}
 
-	siw.Handler.PostAdminUploadTeacherRetakes(c)
+	siw.Handler.UploadTeacherRetakes(c)
 }
 
-// PostAuthLogin operation middleware
-func (siw *ServerInterfaceWrapper) PostAuthLogin(c *gin.Context) {
+// Login operation middleware
+func (siw *ServerInterfaceWrapper) Login(c *gin.Context) {
 
 	for _, middleware := range siw.HandlerMiddlewares {
 		middleware(c)
@@ -93,11 +93,11 @@ func (siw *ServerInterfaceWrapper) PostAuthLogin(c *gin.Context) {
 		}
 	}
 
-	siw.Handler.PostAuthLogin(c)
+	siw.Handler.Login(c)
 }
 
-// GetStudentDebtInfo operation middleware
-func (siw *ServerInterfaceWrapper) GetStudentDebtInfo(c *gin.Context) {
+// DebtInfo operation middleware
+func (siw *ServerInterfaceWrapper) DebtInfo(c *gin.Context) {
 
 	for _, middleware := range siw.HandlerMiddlewares {
 		middleware(c)
@@ -106,11 +106,11 @@ func (siw *ServerInterfaceWrapper) GetStudentDebtInfo(c *gin.Context) {
 		}
 	}
 
-	siw.Handler.GetStudentDebtInfo(c)
+	siw.Handler.DebtInfo(c)
 }
 
-// PostStudentRetakeRequest operation middleware
-func (siw *ServerInterfaceWrapper) PostStudentRetakeRequest(c *gin.Context) {
+// StudentRetakeRequest operation middleware
+func (siw *ServerInterfaceWrapper) StudentRetakeRequest(c *gin.Context) {
 
 	for _, middleware := range siw.HandlerMiddlewares {
 		middleware(c)
@@ -119,11 +119,11 @@ func (siw *ServerInterfaceWrapper) PostStudentRetakeRequest(c *gin.Context) {
 		}
 	}
 
-	siw.Handler.PostStudentRetakeRequest(c)
+	siw.Handler.StudentRetakeRequest(c)
 }
 
-// GetTeacherRetakeInfo operation middleware
-func (siw *ServerInterfaceWrapper) GetTeacherRetakeInfo(c *gin.Context) {
+// TeacherRetakeRequest operation middleware
+func (siw *ServerInterfaceWrapper) TeacherRetakeRequest(c *gin.Context) {
 
 	for _, middleware := range siw.HandlerMiddlewares {
 		middleware(c)
@@ -132,11 +132,11 @@ func (siw *ServerInterfaceWrapper) GetTeacherRetakeInfo(c *gin.Context) {
 		}
 	}
 
-	siw.Handler.GetTeacherRetakeInfo(c)
+	siw.Handler.TeacherRetakeRequest(c)
 }
 
-// PostTeacherUpdateRetake operation middleware
-func (siw *ServerInterfaceWrapper) PostTeacherUpdateRetake(c *gin.Context) {
+// TeacherUpdateRetake operation middleware
+func (siw *ServerInterfaceWrapper) TeacherUpdateRetake(c *gin.Context) {
 
 	for _, middleware := range siw.HandlerMiddlewares {
 		middleware(c)
@@ -145,7 +145,7 @@ func (siw *ServerInterfaceWrapper) PostTeacherUpdateRetake(c *gin.Context) {
 		}
 	}
 
-	siw.Handler.PostTeacherUpdateRetake(c)
+	siw.Handler.TeacherUpdateRetake(c)
 }
 
 // GinServerOptions provides options for the Gin server.
@@ -175,12 +175,12 @@ func RegisterHandlersWithOptions(router gin.IRouter, si ServerInterface, options
 		ErrorHandler:       errorHandler,
 	}
 
-	router.POST(options.BaseURL+"/admin/upload-retake-data", wrapper.PostAdminUploadRetakeData)
-	router.POST(options.BaseURL+"/admin/upload-student-retakes", wrapper.PostAdminUploadStudentRetakes)
-	router.POST(options.BaseURL+"/admin/upload-teacher-retakes", wrapper.PostAdminUploadTeacherRetakes)
-	router.POST(options.BaseURL+"/auth/login", wrapper.PostAuthLogin)
-	router.GET(options.BaseURL+"/student/debt-info", wrapper.GetStudentDebtInfo)
-	router.POST(options.BaseURL+"/student/retake-request", wrapper.PostStudentRetakeRequest)
-	router.GET(options.BaseURL+"/teacher/retake-info", wrapper.GetTeacherRetakeInfo)
-	router.POST(options.BaseURL+"/teacher/update-retake", wrapper.PostTeacherUpdateRetake)
+	router.POST(options.BaseURL+"/admin/upload-retake-data", wrapper.UploadRetakeData)
+	router.POST(options.BaseURL+"/admin/upload-student-retakes", wrapper.UploadStudentRetakes)
+	router.POST(options.BaseURL+"/admin/upload-teacher-retakes", wrapper.UploadTeacherRetakes)
+	router.POST(options.BaseURL+"/auth/login", wrapper.Login)
+	router.GET(options.BaseURL+"/student/debt-info", wrapper.DebtInfo)
+	router.POST(options.BaseURL+"/student/retake-request", wrapper.StudentRetakeRequest)
+	router.GET(options.BaseURL+"/teacher/retake-info", wrapper.TeacherRetakeRequest)
+	router.POST(options.BaseURL+"/teacher/update-retake", wrapper.TeacherUpdateRetake)
 }
